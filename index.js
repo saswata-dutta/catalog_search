@@ -1,26 +1,41 @@
 #!/usr/bin/env node
 
-const readline = require('readline');
+const readline = require('readline')
+const data = require('./lam.json')
+const Fuse = require('Fuse.js')
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: '> ' // Customize the prompt as desired
-});
+  terminal: false,
+  prompt: '> '
+})
 
-rl.prompt();
+console.log(`Loaded ${data.length} items`)
 
+const fuseOpts = {
+  ignoreLocation: true,
+  includeScore: true,
+  shouldSort: true,
+  keys: [{ name: 'color', weight: 0.4 },
+    { name: 'finish', weight: 0.3 },
+    { name: 'subCategory', weight: 0.1 },
+    { name: 'tags', weight: 0.15 },
+    { name: 'Brand', weight: 0.05 }
+  ]
+}
+
+const index = Fuse.createIndex(fuseOpts.keys, data)
+const fuse = new Fuse(data, fuseOpts, index)
+
+rl.prompt()
 rl.on('line', (input) => {
-  // Handle user input from the REPL-like interface
-  // Implement your logic here
-  console.log(`Received: ${input}`);
-
-  rl.prompt();
-});
+  console.log(JSON.stringify(fuse.search(input).slice(0, 5), null, 2))
+  // repeat
+  rl.prompt()
+})
 
 rl.on('close', () => {
-  // Cleanup code or any final actions
-  console.log('Exiting the CLI app.');
-  process.exit(0);
-});
-
+  console.log('Exiting')
+  process.exit(0)
+})
