@@ -1,27 +1,25 @@
 import json
 from urllib.parse import urlparse
-import re
-
-
-PAT = re.compile(r"""[\/:"'*?<>|~\s$#%^&+=@!;:,^]+""")
+import hashlib
 
 
 def parse(url):
-    r = urlparse(url)
-    parts = r.path.split("/")
-    fname = PAT.sub("__", r.path)
-    return fname
+    urlPath = urlparse(url).path
+    ext = urlPath.split(".")[-1]
+    fhash = hashlib.md5(urlPath.encode("ascii")).hexdigest()
+    fname = f"{fhash}.{ext}"
+    return (urlPath, fname)
 
 
 with open("lam.json", "r") as f:
     data = json.load(f)
     for i, item in enumerate(data):
-        url = item["offerImageUrl_1"].strip().split("?")[0]
-        file = parse(url)
-        item["url"] = url
-        item["file"] = file
+        url = item["url"]
+        urlPath, fname = parse(url)
+        item["url_path"] = urlPath
+        item["file"] = fname
         item["i"] = i
-        item.pop("offerImageUrl_1")
+
 
 with open("lam.json", "w") as f:
     json.dump(data, f)
