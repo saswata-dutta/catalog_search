@@ -34,7 +34,7 @@ def prep_image_index(vector_length, data, count):
         v = hash_as_array(it["img_hash"])
         t.add_item(i, v)
 
-    num_trees = 50
+    num_trees = 200
     t.build(num_trees)
     t.save(f"lam_{num_trees}.ann")
 

@@ -27,7 +27,7 @@ def load_img_index():
     vector_length = 42
     img_index = AnnoyIndex(vector_length, "hamming")
 
-    num_trees = 50
+    num_trees = 200
     fname = f"lam_{num_trees}.ann"
     img_index.load(fname)
 
@@ -45,8 +45,9 @@ def knn(img_index, query_vec, n, search_k, threshold):
     locs, dists = img_index.get_nns_by_vector(
         query_vec, n, search_k, include_distances=True
     )
-    matches = [i for i, d in zip(locs, dists) if d < threshold]
-    return matches
+    matches = [(i, d) for i, d in zip(locs, dists) if d < threshold]
+    matches.sort(key=lambda it: it[1])
+    return [i for i, _ in matches]
 
 
 def main():
@@ -55,7 +56,7 @@ def main():
 
     query_dir = Path.cwd().joinpath("query")
     hashfn = lambda img: imagehash.colorhash(img, binbits=3)
-    search_k = 200
+    search_k = -1
     threshold = 13
 
     def search(query_fname, n):

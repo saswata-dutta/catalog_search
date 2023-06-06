@@ -1,6 +1,8 @@
 
 lam.json
 images/*
+query/*
+*.ann
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,intellij+all,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,intellij+all,node
