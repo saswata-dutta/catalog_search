@@ -34,12 +34,7 @@ const fuseOpts = {
   ignoreLocation: true,
   includeScore: true,
   shouldSort: true,
-  keys: [{ name: 'color', weight: 0.35 },
-    { name: 'finish', weight: 0.25 },
-    { name: 'subCategory', weight: 0.25 },
-    { name: 'tags', weight: 0.04 },
-    { name: 'Brand', weight: 0.01 }
-  ]
+  keys: indexKeys
 }
 
 const index = Fuse.createIndex(fuseOpts.keys, data)

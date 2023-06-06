@@ -17,9 +17,9 @@ const fuseOpts = {
   ignoreLocation: true,
   includeScore: true,
   shouldSort: true,
-  keys: [{ name: 'color', weight: 0.4 },
-    { name: 'finish', weight: 0.3 },
-    { name: 'subCategory', weight: 0.1 },
+  keys: [{ name: 'color', weight: 0.35 },
+    { name: 'finish', weight: 0.25 },
+    { name: 'subCategory', weight: 0.20 },
     { name: 'tags', weight: 0.15 },
     { name: 'Brand', weight: 0.05 }
   ]
