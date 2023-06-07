@@ -4,7 +4,7 @@ const readline = require('readline')
 const data = require('./lam.json')
 const Fuse = require('Fuse.js')
 
-const indexKeys = 'color finish subCategory Brand tags'.split(' ')
+const indexKeys = 'base_color finish subCategory Brand tags'.split(' ')
 
 function makeQuery (input) {
   const parts = input.split(';').map(a => a.split(',').map(b => b.trim()))
